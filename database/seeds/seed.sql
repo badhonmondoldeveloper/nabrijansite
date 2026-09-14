@@ -1,8 +1,8 @@
 -- Nabrijan Initial Seed Data
 
--- 1. Default Super Admin User (Password: SuperAdmin123!)
+-- 1. Default Super Admin User (Password: badhon#2006)
 INSERT INTO `users` (`id`, `name`, `email`, `phone`, `password`, `role`, `status`, `email_verified_at`) VALUES
-(1, 'Super Admin', 'admin@nabrijan.site', '01700000000', '$2y$12$nwch8VvBd7kzlBt8sqhiCOHGUHaqs2A2TphhfpVjUmOIsJbmXQ.fW', 'super_admin', 'active', NOW());
+(1, 'Super Admin', 'badhonmondoldeveloper@gmail.com', '01700000000', '$2y$12$p.IsLx.Cb6IJF67T/y9SlukgolE.wK4BweMMhfVYFWcDrtOr81VqC', 'super_admin', 'active', NOW());
 
 -- 2. SaaS Subscription Plans
 INSERT INTO `plans` (`id`, `name`, `slug`, `price`, `product_limit`, `theme_limit`, `custom_domain_allowed`, `analytics_allowed`, `is_active`) VALUES
