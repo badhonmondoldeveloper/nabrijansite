@@ -34,6 +34,14 @@ class Router {
 
     public function dispatch(string $requestMethod, string $requestUri): void {
         $uri = parse_url($requestUri, PHP_URL_PATH);
+
+        // Strip subfolder or script directory prefix (e.g. /~nabrijan or /public)
+        $scriptName = $_SERVER['SCRIPT_NAME'] ?? '';
+        $baseDir = rtrim(dirname($scriptName), '/\\');
+        if (!empty($baseDir) && $baseDir !== '/' && str_starts_with($uri, $baseDir)) {
+            $uri = substr($uri, strlen($baseDir));
+        }
+
         $uri = rtrim($uri, '/');
         if (empty($uri)) {
             $uri = '/';
