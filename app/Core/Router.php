@@ -35,16 +35,19 @@ class Router {
     public function dispatch(string $requestMethod, string $requestUri): void {
         $uri = parse_url($requestUri, PHP_URL_PATH);
 
-        // Strip subfolder or script directory prefix (e.g. /~nabrijan or /public)
+        // Remove userdir prefix (~nabrijan) if present
+        $uri = preg_replace('#^/~[a-zA-Z0-9_-]+#', '', $uri);
+
+        // Strip subfolder or script directory prefix if present
         $scriptName = $_SERVER['SCRIPT_NAME'] ?? '';
         $baseDir = rtrim(dirname($scriptName), '/\\');
         if (!empty($baseDir) && $baseDir !== '/' && str_starts_with($uri, $baseDir)) {
             $uri = substr($uri, strlen($baseDir));
         }
 
-        $uri = rtrim($uri, '/');
-        if (empty($uri)) {
-            $uri = '/';
+        $uri = '/' . ltrim($uri, '/');
+        if (strlen($uri) > 1) {
+            $uri = rtrim($uri, '/');
         }
 
         // Support _method override for forms (PUT, DELETE)
