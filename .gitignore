@@ -1,0 +1,7 @@
+.env
+storage/logs/*.log
+public/uploads/products/*
+!public/uploads/products/.gitkeep
+public/uploads/stores/*
+!public/uploads/stores/.gitkeep
+.DS_Store
