@@ -106,6 +106,8 @@ class StorefrontController extends Controller {
         }
 
         $images = $this->productImageModel->getImagesForProduct($product['id']);
+        $variantModel = new \App\Models\ProductVariant();
+        $variants = $variantModel->getVariantsForProduct($product['id']);
         $relatedProducts = $this->productModel->getPaginatedForStore($store['id'], 1, 4, '', $product['category_id'])['items'];
         $storeSettings = $this->storeSettingModel->findByStoreId($store['id']);
         $themeConfig = $this->themeService->getStoreThemeConfig($store['id']);
@@ -117,6 +119,7 @@ class StorefrontController extends Controller {
             'themeConfig' => $themeConfig,
             'product' => $product,
             'images' => $images,
+            'variants' => $variants,
             'relatedProducts' => $relatedProducts
         ], 'storefront.layout');
     }

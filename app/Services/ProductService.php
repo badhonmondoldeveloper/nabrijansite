@@ -110,6 +110,31 @@ class ProductService {
                 }
             }
 
+            // Process Variants (Sizes & Colors)
+            $sizesInput = trim($data['sizes'] ?? '');
+            $colorsInput = trim($data['colors'] ?? '');
+            $sizes = !empty($sizesInput) ? array_filter(array_map('trim', explode(',', $sizesInput))) : [];
+            $colors = !empty($colorsInput) ? array_filter(array_map('trim', explode(',', $colorsInput))) : [];
+
+            if (!empty($sizes) || !empty($colors)) {
+                $variantModel = new \App\Models\ProductVariant();
+                if (!empty($sizes) && !empty($colors)) {
+                    foreach ($sizes as $sz) {
+                        foreach ($colors as $cl) {
+                            $variantModel->addVariant($productId, ['size' => $sz, 'color' => $cl], $price, (int)($data['stock'] ?? 10));
+                        }
+                    }
+                } elseif (!empty($sizes)) {
+                    foreach ($sizes as $sz) {
+                        $variantModel->addVariant($productId, ['size' => $sz], $price, (int)($data['stock'] ?? 10));
+                    }
+                } elseif (!empty($colors)) {
+                    foreach ($colors as $cl) {
+                        $variantModel->addVariant($productId, ['color' => $cl], $price, (int)($data['stock'] ?? 10));
+                    }
+                }
+            }
+
             $db->commit();
             return ['success' => true, 'product_id' => $productId];
 

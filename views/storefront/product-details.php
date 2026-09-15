@@ -66,6 +66,48 @@
                     <?php endif; ?>
                 </div>
 
+                <!-- Product Variants (Size & Color) -->
+                <?php
+                $sizes = [];
+                $colors = [];
+                if (!empty($variants)) {
+                    foreach ($variants as $v) {
+                        if (!empty($v['attributes']['size']) && !in_array($v['attributes']['size'], $sizes)) {
+                            $sizes[] = $v['attributes']['size'];
+                        }
+                        if (!empty($v['attributes']['color']) && !in_array($v['attributes']['color'], $colors)) {
+                            $colors[] = $v['attributes']['color'];
+                        }
+                    }
+                }
+                ?>
+
+                <?php if (!empty($sizes)): ?>
+                    <div class="mb-3">
+                        <label class="fw-bold small d-block mb-1 text-dark">Select Size:</label>
+                        <div class="d-flex flex-wrap gap-2" id="sizeOptions">
+                            <?php foreach ($sizes as $idx => $sz): ?>
+                                <button type="button" class="btn btn-outline-dark btn-sm rounded-3 px-3 py-1 <?= $idx === 0 ? 'active' : '' ?>" onclick="document.querySelectorAll('#sizeOptions .btn').forEach(b => b.classList.remove('active')); this.classList.add('active');">
+                                    <?= sanitize($sz) ?>
+                                </button>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                <?php endif; ?>
+
+                <?php if (!empty($colors)): ?>
+                    <div class="mb-3">
+                        <label class="fw-bold small d-block mb-1 text-dark">Select Color:</label>
+                        <div class="d-flex flex-wrap gap-2" id="colorOptions">
+                            <?php foreach ($colors as $idx => $cl): ?>
+                                <button type="button" class="btn btn-outline-secondary btn-sm rounded-3 px-3 py-1 <?= $idx === 0 ? 'active' : '' ?>" onclick="document.querySelectorAll('#colorOptions .btn').forEach(b => b.classList.remove('active')); this.classList.add('active');">
+                                    <?= sanitize($cl) ?>
+                                </button>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                <?php endif; ?>
+
                 <!-- Short Description -->
                 <?php if (!empty($product['short_description'])): ?>
                     <p class="text-muted mb-4 small fs-md-6"><?= nl2br(sanitize($product['short_description'])) ?></p>

@@ -89,6 +89,23 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Product Variants (Size & Color) -->
+            <div class="card-custom mb-4">
+                <h6 class="fw-bold text-light mb-3"><i class="bi bi-tags me-2 text-success"></i>Product Variants (Optional)</h6>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="sizes" class="form-label">Available Sizes (Comma Separated)</label>
+                        <input type="text" class="form-control" id="sizes" name="sizes" value="<?= sanitize($old['sizes'] ?? '') ?>" placeholder="e.g. S, M, L, XL, XXL or 39, 40, 41, 42">
+                        <div class="form-text text-secondary">Enter sizes separated by commas.</div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="colors" class="form-label">Available Colors (Comma Separated)</label>
+                        <input type="text" class="form-control" id="colors" name="colors" value="<?= sanitize($old['colors'] ?? '') ?>" placeholder="e.g. Red, Blue, Black, White, Navy">
+                        <div class="form-text text-secondary">Enter color names separated by commas.</div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Sidebar Options -->

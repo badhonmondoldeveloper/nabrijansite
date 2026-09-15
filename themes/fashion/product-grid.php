@@ -19,7 +19,7 @@
         <?php else: ?>
             <div class="store-product-grid-mobile">
                 <?php foreach ($products as $prod): ?>
-                    <div class="store-product-card">
+                    <div class="store-product-card" onclick="window.location.href='/store/<?= sanitize($store['slug']) ?>/product/<?= sanitize($prod['slug']) ?>'" style="cursor: pointer;">
                         <div class="store-product-thumb">
                             <?php if (!empty($prod['discount_price']) && $prod['discount_price'] < $prod['price']): ?>
                                 <?php $pct = round((($prod['price'] - $prod['discount_price']) / $prod['price']) * 100); ?>
@@ -50,7 +50,7 @@
                                 <?php endif; ?>
                             </div>
 
-                            <button type="button" class="store-btn-add-cart" onclick="addToCart(<?= $prod['id'] ?>)">
+                            <button type="button" class="store-btn-add-cart" onclick="event.stopPropagation(); addToCart(<?= $prod['id'] ?>)">
                                 <i class="bi bi-bag-plus"></i> Add to Bag
                             </button>
                         </div>
