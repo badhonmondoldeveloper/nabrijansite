@@ -6,6 +6,7 @@
     <title><?= sanitize($pageTitle ?? 'Super Admin Panel - Nabrijan') ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root { --sidebar-width: 250px; --primary-green: #059669; --accent-yellow: #eab308; }
         body { background-color: #0b0f19; color: #f8fafc; font-family: 'Segoe UI', system-ui, sans-serif; }
@@ -36,15 +37,18 @@
         </a>
 
         <div class="nav flex-column my-2">
-            <a href="/admin" class="nav-link active"><i class="bi bi-speedometer2"></i> Dashboard</a>
+            <a href="/admin" class="nav-link"><i class="bi bi-speedometer2"></i> Control Dashboard</a>
+
+            <div class="nav-category">SaaS & Billing</div>
+            <a href="/admin/subscription-payments" class="nav-link"><i class="bi bi-credit-card-2-front"></i> Subscriptions <span class="badge bg-warning text-dark ms-auto">Pay</span></a>
+            <a href="/admin/plans" class="nav-link"><i class="bi bi-award"></i> Plan Tier Matrix</a>
 
             <div class="nav-category">Platform Audit</div>
-            <a href="/admin/stores" class="nav-link"><i class="bi bi-shop"></i> Stores</a>
-            <a href="/admin/users" class="nav-link"><i class="bi bi-people"></i> Users & Roles</a>
-            <a href="/admin/plans" class="nav-link"><i class="bi bi-award"></i> Subscription Plans</a>
+            <a href="/admin/stores" class="nav-link"><i class="bi bi-shop"></i> Stores & Tenants</a>
+            <a href="/admin/users" class="nav-link"><i class="bi bi-people"></i> User Roles & Access</a>
 
             <div class="nav-category">System Configuration</div>
-            <a href="/admin/settings" class="nav-link"><i class="bi bi-sliders"></i> System Settings</a>
+            <a href="/admin/settings" class="nav-link"><i class="bi bi-wallet2"></i> Manual Payment Setup</a>
             <a href="/logout" class="nav-link text-danger"><i class="bi bi-box-arrow-right"></i> Sign Out</a>
         </div>
     </aside>
@@ -59,7 +63,7 @@
         </div>
         <div class="d-flex align-items-center gap-3">
             <a href="/" target="_blank" class="btn btn-sm btn-outline-warning">
-                <i class="bi bi-globe me-1"></i> SaaS Website
+                <i class="bi bi-globe me-1"></i> SaaS Main Site
             </a>
             <a href="/logout" class="btn btn-sm btn-outline-danger">Sign Out</a>
         </div>
@@ -70,6 +74,6 @@
         <?= $content ?>
     </main>
 
-    <script href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

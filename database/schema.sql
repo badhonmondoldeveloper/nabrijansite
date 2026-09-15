@@ -67,8 +67,20 @@ CREATE TABLE IF NOT EXISTS `store_settings` (
     `address` TEXT NULL,
     `dhaka_delivery_charge` DECIMAL(10,2) NOT NULL DEFAULT 60.00,
     `outside_dhaka_delivery_charge` DECIMAL(10,2) NOT NULL DEFAULT 120.00,
+    `cod_enabled` TINYINT(1) NOT NULL DEFAULT 1,
+    `bkash_enabled` TINYINT(1) NOT NULL DEFAULT 1,
     `bkash_number` VARCHAR(20) NULL,
+    `bkash_type` ENUM('personal', 'agent', 'merchant') NOT NULL DEFAULT 'personal',
+    `bkash_instruction` TEXT NULL,
+    `nagad_enabled` TINYINT(1) NOT NULL DEFAULT 1,
     `nagad_number` VARCHAR(20) NULL,
+    `nagad_type` ENUM('personal', 'agent', 'merchant') NOT NULL DEFAULT 'personal',
+    `nagad_instruction` TEXT NULL,
+    `rocket_enabled` TINYINT(1) NOT NULL DEFAULT 0,
+    `rocket_number` VARCHAR(20) NULL,
+    `rocket_type` ENUM('personal', 'agent', 'merchant') NOT NULL DEFAULT 'personal',
+    `rocket_instruction` TEXT NULL,
+    `bank_enabled` TINYINT(1) NOT NULL DEFAULT 0,
     `bank_details` TEXT NULL,
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -418,6 +430,35 @@ CREATE TABLE IF NOT EXISTS `activity_logs` (
     FOREIGN KEY (`store_id`) REFERENCES `stores`(`id`) ON DELETE SET NULL,
     INDEX `idx_activity_logs_user` (`user_id`),
     INDEX `idx_activity_logs_store` (`store_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- 26. PLATFORM PAYMENT SETTINGS
+CREATE TABLE IF NOT EXISTS `platform_payment_settings` (
+    `id` BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    `setting_key` VARCHAR(100) NOT NULL UNIQUE,
+    `setting_value` TEXT NULL,
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- 27. SUBSCRIPTION PAYMENTS
+CREATE TABLE IF NOT EXISTS `subscription_payments` (
+    `id` BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    `store_id` BIGINT UNSIGNED NOT NULL,
+    `plan_id` BIGINT UNSIGNED NOT NULL,
+    `payment_method` VARCHAR(50) NOT NULL,
+    `transaction_id` VARCHAR(100) NOT NULL,
+    `sender_number` VARCHAR(50) NULL,
+    `amount` DECIMAL(10,2) NOT NULL,
+    `payment_note` TEXT NULL,
+    `status` ENUM('pending', 'approved', 'rejected') NOT NULL DEFAULT 'pending',
+    `rejection_reason` TEXT NULL,
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (`store_id`) REFERENCES `stores`(`id`) ON DELETE CASCADE,
+    FOREIGN KEY (`plan_id`) REFERENCES `plans`(`id`) ON DELETE RESTRICT,
+    INDEX `idx_sub_payments_store` (`store_id`),
+    INDEX `idx_sub_payments_status` (`status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 SET FOREIGN_KEY_CHECKS = 1;

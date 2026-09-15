@@ -41,6 +41,7 @@
             <div class="nav-category">My Store</div>
             <a href="/store/<?= sanitize($_SESSION['store_slug'] ?? '') ?>" target="_blank" class="nav-link"><i class="bi bi-shop"></i> View Store</a>
             <a href="/dashboard/settings" class="nav-link"><i class="bi bi-gear"></i> Store Settings</a>
+            <a href="/dashboard/payment-methods" class="nav-link"><i class="bi bi-wallet2 text-warning"></i> Payment Methods</a>
             <a href="/dashboard/customize-theme" class="nav-link"><i class="bi bi-palette"></i> Customize Theme</a>
 
             <div class="nav-category">Catalog</div>

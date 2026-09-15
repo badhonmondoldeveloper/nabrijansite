@@ -51,6 +51,10 @@ $router->get('/admin/users', [\App\Controllers\AdminController::class, 'users'])
 $router->post('/admin/users/{id}/status', [\App\Controllers\AdminController::class, 'updateUserStatus']);
 $router->get('/admin/plans', [\App\Controllers\AdminController::class, 'plans']);
 $router->get('/admin/settings', [\App\Controllers\AdminController::class, 'settings']);
+$router->post('/admin/settings/payment', [\App\Controllers\AdminController::class, 'updateSettings']);
+$router->get('/admin/subscription-payments', [\App\Controllers\AdminController::class, 'subscriptionPayments']);
+$router->post('/admin/subscription-payments/{id}/approve', [\App\Controllers\AdminController::class, 'approveSubscriptionPayment']);
+$router->post('/admin/subscription-payments/{id}/reject', [\App\Controllers\AdminController::class, 'rejectSubscriptionPayment']);
 
 // Category Web Routes
 $router->get('/dashboard/categories', [\App\Controllers\CategoryController::class, 'index']);
@@ -68,6 +72,10 @@ $router->get('/dashboard/orders', [\App\Controllers\OrderController::class, 'ind
 $router->get('/dashboard/orders/{id}', [\App\Controllers\OrderController::class, 'show']);
 $router->post('/dashboard/orders/{id}/status', [\App\Controllers\OrderController::class, 'updateStatus']);
 
+// Merchant Store Settings & Payment Methods Routes
+$router->get('/dashboard/payment-methods', [\App\Controllers\StoreSettingController::class, 'paymentMethods']);
+$router->post('/dashboard/payment-methods', [\App\Controllers\StoreSettingController::class, 'updatePaymentMethods']);
+
 // Merchant Marketing & Customer Management Routes
 $router->get('/dashboard/coupons', [\App\Controllers\CouponController::class, 'index']);
 $router->post('/dashboard/coupons', [\App\Controllers\CouponController::class, 'store']);
@@ -80,6 +88,7 @@ $router->get('/dashboard/analytics', [\App\Controllers\AnalyticsController::clas
 $router->get('/dashboard/notifications', [\App\Controllers\NotificationController::class, 'index']);
 $router->post('/dashboard/notifications/mark-read/{id}', [\App\Controllers\NotificationController::class, 'markRead']);
 $router->get('/dashboard/subscription', [\App\Controllers\SubscriptionController::class, 'index']);
+$router->post('/dashboard/subscription/upgrade', [\App\Controllers\SubscriptionController::class, 'submitUpgrade']);
 
 // Theme Customizer Web Routes
 $router->get('/dashboard/customize-theme', [\App\Controllers\ThemeCustomizerController::class, 'index']);
