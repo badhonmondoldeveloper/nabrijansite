@@ -331,3 +331,91 @@ img, svg, iframe, video, canvas {
     margin-right: 0 !important;
 }
 
+/* Dynamic RGB Glowing System */
+@keyframes rgbGlowBorder {
+    0% { border-color: #0A9460; box-shadow: 0 0 25px rgba(10, 148, 96, 0.35); }
+    33% { border-color: #D8F34A; box-shadow: 0 0 30px rgba(216, 243, 74, 0.45); }
+    66% { border-color: #2563EB; box-shadow: 0 0 30px rgba(37, 99, 235, 0.35); }
+    100% { border-color: #0A9460; box-shadow: 0 0 25px rgba(10, 148, 96, 0.35); }
+}
+
+@keyframes rgbGradientBg {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.rgb-glow-card {
+    border: 2px solid #0A9460 !important;
+    animation: rgbGlowBorder 5s ease-in-out infinite;
+}
+
+.rgb-badge-glow {
+    background: linear-gradient(135deg, #0A9460, #2563EB, #D8F34A);
+    background-size: 200% 200%;
+    animation: rgbGradientBg 3s ease infinite;
+    color: #ffffff;
+}
+
+.hero-cta-vertical {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    max-width: 420px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.hero-cta-vertical .btn-nj {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+    padding: 14px 28px;
+    font-size: 16px;
+    border-radius: 12px;
+}
+
+.lang-toggle-btn {
+    background: #ffffff;
+    border: 1.5px solid var(--brand-600);
+    color: var(--brand-900);
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.lang-toggle-btn:hover {
+    background: var(--brand-600);
+    color: #ffffff;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(8, 122, 75, 0.25);
+}
+
+.live-order-toast {
+    position: fixed;
+    bottom: 24px;
+    left: 24px;
+    z-index: 1050;
+    background: rgba(13, 28, 22, 0.94);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(10, 148, 96, 0.4);
+    color: #ffffff;
+    padding: 12px 18px;
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 13px;
+    animation: subtleFloat 4s ease-in-out infinite;
+}
+
+
