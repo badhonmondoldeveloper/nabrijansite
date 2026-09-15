@@ -85,3 +85,10 @@ function redirect(string $path): void {
     header('Location: ' . url($path));
     exit;
 }
+
+/**
+ * Generate or get current CSRF token.
+ */
+function csrf_token(): string {
+    return \App\Helpers\Security::generateCsrfToken();
+}

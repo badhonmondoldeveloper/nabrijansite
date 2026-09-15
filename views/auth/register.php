@@ -35,11 +35,15 @@
                 <span class="font-display fw-extrabold fs-3 text-dark">NABRI<span style="color: var(--brand-600);">JAN</span></span>
             </a>
             <h4 class="fw-bold mb-1">Build Your Online Store</h4>
-            <p class="text-secondary small mb-0">Start selling in minutes with Nabrijan Commerce OS.</p>
-        </div>
+        <?php if (!empty($_SESSION['flash_error'])): ?>
+            <div class="alert alert-danger py-2 small rounded-3 mb-3" role="alert">
+                <i class="bi bi-exclamation-triangle-fill me-1"></i> <?= sanitize($_SESSION['flash_error']) ?>
+            </div>
+            <?php unset($_SESSION['flash_error']); ?>
+        <?php endif; ?>
 
         <form action="/register" method="POST">
-            <input type="hidden" name="_csrf_token" value="<?= \App\Helpers\Security::generateCsrfToken() ?>">
+            <input type="hidden" name="_csrf_token" value="<?= csrf_token() ?>">
 
             <div class="mb-3">
                 <label for="name" class="form-label text-secondary small fw-semibold">Full Name <span class="text-danger">*</span></label>
