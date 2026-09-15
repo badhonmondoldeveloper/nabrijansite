@@ -6,6 +6,7 @@
     <title><?= sanitize($pageTitle ?? 'Super Admin Panel - Nabrijan') ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/assets/css/nabrijan-design-system.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root { --sidebar-width: 250px; --primary-green: #059669; --accent-yellow: #eab308; }

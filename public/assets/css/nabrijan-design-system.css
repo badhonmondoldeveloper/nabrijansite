@@ -1,0 +1,304 @@
+/* ==========================================================================
+   NABRIJAN — COMPLETE UI/UX DESIGN SYSTEM CSS (Commerce OS for Modern Businesses)
+   Version: 2.0.0
+   Design Personality: Premium · Modern · Trustworthy · Intelligent · Bangladesh-first
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Bengali:wght@400;500;600;700;800&display=swap');
+
+:root {
+    /* Brand Colors */
+    --brand-950: #06140F;
+    --brand-900: #071A13;
+    --brand-800: #083D2B;
+    --brand-700: #075F3E;
+    --brand-600: #087A4B;
+    --brand-500: #0A9460;
+    --brand-400: #20B979;
+    --brand-300: #65D49F;
+    --brand-200: #B8EED3;
+    --brand-100: #E7F8EF;
+    --brand-50:  #F2FBF6;
+
+    /* Accent Colors */
+    --accent-500: #D8F34A;
+    --accent-400: #E4F86C;
+    --accent-100: #F5FBD7;
+
+    /* Surface & Background */
+    --background: #F7F9F7;
+    --surface: #FFFFFF;
+    --surface-soft: #F0F5F2;
+
+    /* Typography Colors */
+    --text-primary: #102019;
+    --text-secondary: #52615A;
+    --text-muted: #7A8781;
+
+    /* Borders */
+    --border: #DCE5DF;
+    --border-soft: #E9EFEB;
+
+    /* Semantic Status */
+    --success: #16A34A;
+    --warning: #D97706;
+    --danger:  #DC2626;
+    --info:    #2563EB;
+
+    /* Typography Fonts */
+    --font-display: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-bangla: "Noto Sans Bengali", "Inter", sans-serif;
+
+    /* Border Radius System */
+    --radius-button: 10px;
+    --radius-input: 10px;
+    --radius-sm: 12px;
+    --radius-card: 16px;
+    --radius-lg: 20px;
+    --radius-hero: 24px;
+    --radius-pill: 999px;
+
+    /* Shadows */
+    --shadow-xs: 0 1px 2px rgba(7, 26, 19, 0.04);
+    --shadow-sm: 0 4px 12px rgba(7, 26, 19, 0.06);
+    --shadow-md: 0 12px 30px rgba(7, 26, 19, 0.08);
+    --shadow-lg: 0 24px 60px rgba(7, 26, 19, 0.12);
+
+    /* Motion */
+    --duration-fast: 120ms;
+    --duration-normal: 200ms;
+    --duration-medium: 350ms;
+    --duration-slow: 600ms;
+    --ease-standard: cubic-bezier(0.2, 0.8, 0.2, 1);
+
+    /* Container */
+    --container-max: 1200px;
+}
+
+/* Dark Mode Tokens (Merchant Dashboard Optional Dark Mode) */
+[data-theme="dark"] {
+    --background: #07110D;
+    --surface: #0D1C16;
+    --surface-soft: #12261E;
+    --text-primary: #F3FAF6;
+    --text-secondary: #A9B9B1;
+    --text-muted: #71837A;
+    --border: #1D342A;
+    --border-soft: #173025;
+    --brand-500: #2BCF86;
+    --accent-500: #D8F34A;
+    --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 12px 30px rgba(0, 0, 0, 0.4);
+}
+
+/* Base Resets */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--background);
+    color: var(--text-primary);
+    font-family: var(--font-bangla);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6, .font-display {
+    font-family: var(--font-display);
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+}
+
+/* Container System */
+.nj-container {
+    width: 100%;
+    max-width: var(--container-max);
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+@media (min-width: 640px) { .nj-container { padding-left: 32px; padding-right: 32px; } }
+@media (min-width: 1024px) { .nj-container { padding-left: 40px; padding-right: 40px; } }
+
+/* Typography Scale */
+.display-hero { font-size: 72px; line-height: 1.05; font-weight: 800; }
+.h1-heading { font-size: 52px; line-height: 1.10; font-weight: 800; }
+.h2-heading { font-size: 40px; line-height: 1.15; font-weight: 750; }
+.h3-heading { font-size: 28px; line-height: 1.20; font-weight: 700; }
+.h4-heading { font-size: 22px; line-height: 1.25; font-weight: 650; }
+
+@media (max-width: 1023px) {
+    .display-hero { font-size: 56px; }
+    .h1-heading { font-size: 40px; }
+    .h2-heading { font-size: 32px; }
+}
+@media (max-width: 639px) {
+    .display-hero { font-size: 40px; }
+    .h1-heading { font-size: 32px; }
+    .h2-heading { font-size: 26px; }
+}
+
+/* Buttons System */
+.btn-nj {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 15px;
+    padding: 12px 24px;
+    border-radius: var(--radius-button);
+    border: 1px solid transparent;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all var(--duration-normal) var(--ease-standard);
+    white-space: nowrap;
+}
+
+.btn-nj-primary {
+    background-color: var(--brand-600);
+    color: #FFFFFF !important;
+    box-shadow: 0 2px 8px rgba(8, 122, 75, 0.2);
+}
+.btn-nj-primary:hover {
+    background-color: var(--brand-700);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(8, 122, 75, 0.3);
+}
+
+.btn-nj-accent {
+    background-color: var(--accent-500);
+    color: var(--brand-900) !important;
+    font-weight: 700;
+    box-shadow: 0 2px 8px rgba(216, 243, 74, 0.3);
+}
+.btn-nj-accent:hover {
+    background-color: var(--accent-400);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(216, 243, 74, 0.4);
+}
+
+.btn-nj-secondary {
+    background-color: var(--surface);
+    color: var(--text-primary) !important;
+    border-color: var(--border);
+    box-shadow: var(--shadow-xs);
+}
+.btn-nj-secondary:hover {
+    background-color: var(--surface-soft);
+    border-color: var(--brand-400);
+    transform: translateY(-2px);
+}
+
+.btn-nj-ghost {
+    background-color: transparent;
+    color: var(--text-secondary) !important;
+}
+.btn-nj-ghost:hover {
+    color: var(--brand-600) !important;
+    background-color: var(--brand-100);
+}
+
+/* Card Component System */
+.nj-card {
+    background-color: var(--surface);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-card);
+    padding: 24px;
+    box-shadow: var(--shadow-sm);
+    transition: all var(--duration-normal) var(--ease-standard);
+}
+.nj-card-interactive:hover {
+    transform: translateY(-3px);
+    border-color: var(--brand-300);
+    box-shadow: var(--shadow-md);
+}
+
+/* Bento Grid System */
+.bento-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 20px;
+}
+.bento-col-8 { grid-column: span 8; }
+.bento-col-4 { grid-column: span 4; }
+.bento-col-6 { grid-column: span 6; }
+.bento-col-12 { grid-column: span 12; }
+
+@media (max-width: 1023px) {
+    .bento-col-8, .bento-col-4, .bento-col-6 { grid-column: span 12; }
+}
+
+/* Table Badge System */
+.nj-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    height: 28px;
+    padding: 0 12px;
+    border-radius: var(--radius-pill);
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1;
+}
+
+.nj-badge-pending   { background-color: #FEF3C7; color: #92400E; }
+.nj-badge-confirmed { background-color: #DBEAFE; color: #1E40AF; }
+.nj-badge-processing{ background-color: #F3E8FF; color: #6B21A8; }
+.nj-badge-shipped   { background-color: #D1FAE5; color: #065F46; }
+.nj-badge-delivered { background-color: #DCFCE7; color: #166534; }
+.nj-badge-cancelled { background-color: #FEE2E2; color: #991B1B; }
+
+/* Input System */
+.nj-input {
+    width: 100%;
+    height: 44px;
+    padding: 0 14px;
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-input);
+    color: var(--text-primary);
+    font-size: 14px;
+    font-family: inherit;
+    transition: all var(--duration-fast) var(--ease-standard);
+}
+.nj-input:focus {
+    outline: none;
+    border-color: var(--brand-600);
+    box-shadow: 0 0 0 3px var(--brand-100);
+}
+
+/* Controlled Glow Effect */
+.controlled-glow {
+    box-shadow: 0 0 40px rgba(10, 148, 96, 0.12);
+}
+
+/* Subtle Hero Floating Animation */
+@keyframes subtleFloat {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+    100% { transform: translateY(0); }
+}
+.animate-float {
+    animation: subtleFloat 5s ease-in-out infinite;
+}
+
+/* Skeleton Loading Shimmer */
+@keyframes skeletonShimmer {
+    0% { background-position: -200px 0; }
+    100% { background-position: 200px 0; }
+}
+.skeleton-shimmer {
+    background: linear-gradient(90deg, var(--surface-soft) 25%, var(--border-soft) 50%, var(--surface-soft) 75%);
+    background-size: 400px 100%;
+    animation: skeletonShimmer 1.5s infinite;
+    border-radius: 6px;
+}
