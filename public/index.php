@@ -100,6 +100,7 @@ $router->post('/store/{slug}/cart/add', [\App\Controllers\CartController::class,
 $router->post('/store/{slug}/cart/update', [\App\Controllers\CartController::class, 'update']);
 $router->post('/store/{slug}/cart/remove', [\App\Controllers\CartController::class, 'remove']);
 $router->get('/store/{slug}/cart/count', [\App\Controllers\CartController::class, 'count']);
+$router->get('/store/{slug}/cart/data', [\App\Controllers\CartController::class, 'data']);
 
 $router->get('/store/{slug}/checkout', [\App\Controllers\CheckoutController::class, 'showCheckout']);
 $router->post('/store/{slug}/checkout', [\App\Controllers\CheckoutController::class, 'processCheckout']);

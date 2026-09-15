@@ -92,4 +92,14 @@ class CartController extends Controller {
         $cart = $this->cartService->getCart($store['id']);
         $this->json(['count' => $cart['item_count']]);
     }
+
+    public function data(string $slug): void {
+        $store = $this->storeModel->findBySlug($slug);
+        if (!$store) {
+            $this->json(['success' => false, 'cart' => ['items' => [], 'subtotal' => 0, 'item_count' => 0]]);
+            return;
+        }
+        $cart = $this->cartService->getCart($store['id']);
+        $this->json(['success' => true, 'cart' => $cart]);
+    }
 }

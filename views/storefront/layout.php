@@ -153,11 +153,37 @@
 
         function fetchCartDrawerItems() {
             const body = document.getElementById('cartDrawerBody');
-            fetch('/store/<?= sanitize($store['slug']) ?>/cart')
-                .then(res => res.text())
-                .then(html => {
+            const subtotalEl = document.getElementById('cartDrawerSubtotal');
+            fetch('/store/<?= sanitize($store['slug']) ?>/cart/data')
+                .then(res => res.json())
+                .then(data => {
                     updateCartBadge();
-                }).catch(() => {});
+                    if (data.success && data.cart && data.cart.items && data.cart.items.length > 0) {
+                        subtotalEl.innerText = '৳' + parseFloat(data.cart.subtotal).toFixed(2);
+                        let html = '<div class="d-flex flex-column gap-2">';
+                        data.cart.items.forEach(item => {
+                            html += `
+                                <div class="d-flex align-items-center justify-content-between p-2 border rounded bg-light">
+                                    <div class="d-flex align-items-center gap-2">
+                                        ${item.image ? `<img src="${item.image}" style="width:48px;height:48px;object-fit:cover;border-radius:8px;">` : '<div class="bg-secondary bg-opacity-20 rounded" style="width:48px;height:48px;"></div>'}
+                                        <div>
+                                            <div class="fw-bold small text-dark">${item.name}</div>
+                                            <div class="small text-muted">Qty: ${item.quantity} × ৳${item.price}</div>
+                                        </div>
+                                    </div>
+                                    <div class="fw-bold text-success">৳${(item.quantity * item.price).toFixed(2)}</div>
+                                </div>
+                            `;
+                        });
+                        html += '</div>';
+                        body.innerHTML = html;
+                    } else {
+                        subtotalEl.innerText = '৳0.00';
+                        body.innerHTML = '<div class="text-center py-5 text-muted"><i class="bi bi-cart-x fs-1 d-block mb-2"></i><p class="mb-0">Your shopping cart is empty.</p></div>';
+                    }
+                }).catch(() => {
+                    body.innerHTML = '<div class="text-center py-4 text-muted">Unable to load cart.</div>';
+                });
         }
 
         function addToCart(productId, qty = 1) {
