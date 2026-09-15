@@ -49,7 +49,6 @@
 
             <div class="d-flex align-items-center gap-3">
                 <a href="/login" class="btn-nj btn-nj-ghost">Sign In</a>
-                <a href="/register" class="btn-nj btn-nj-primary">Create Store →</a>
             </div>
         </div>
     </header>
