@@ -95,7 +95,7 @@
             <form action="/dashboard/orders/<?= $order['id'] ?>/status" method="POST">
                 <input type="hidden" name="_csrf_token" value="<?= \App\Helpers\Security::generateCsrfToken() ?>">
                 <div class="mb-3">
-                    <label for="order_status" class="form-label text-secondary">Current Status</label>
+                    <label for="order_status" class="form-label text-secondary">Fulfillment Status</label>
                     <select class="form-select bg-dark text-light border-secondary" id="order_status" name="order_status">
                         <option value="pending" <?= ($order['order_status'] == 'pending') ? 'selected' : '' ?>>Pending</option>
                         <option value="confirmed" <?= ($order['order_status'] == 'confirmed') ? 'selected' : '' ?>>Confirmed</option>
@@ -104,6 +104,15 @@
                         <option value="delivered" <?= ($order['order_status'] == 'delivered') ? 'selected' : '' ?>>Delivered</option>
                         <option value="cancelled" <?= ($order['order_status'] == 'cancelled') ? 'selected' : '' ?>>Cancelled</option>
                         <option value="returned" <?= ($order['order_status'] == 'returned') ? 'selected' : '' ?>>Returned</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="payment_status" class="form-label text-secondary">Payment Verification Status</label>
+                    <select class="form-select bg-dark text-light border-secondary" id="payment_status" name="payment_status">
+                        <option value="pending" <?= ($order['payment_status'] == 'pending') ? 'selected' : '' ?>>Pending Payment Verification</option>
+                        <option value="paid" <?= ($order['payment_status'] == 'paid') ? 'selected' : '' ?>>Paid & Verified</option>
+                        <option value="rejected" <?= ($order['payment_status'] == 'rejected') ? 'selected' : '' ?>>Payment Rejected</option>
+                        <option value="refunded" <?= ($order['payment_status'] == 'refunded') ? 'selected' : '' ?>>Refunded</option>
                     </select>
                 </div>
                 <div class="mb-3">

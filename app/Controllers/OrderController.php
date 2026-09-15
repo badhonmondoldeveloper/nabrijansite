@@ -85,6 +85,7 @@ class OrderController extends Controller {
 
         $orderId = (int)$id;
         $newStatus = $_POST['order_status'] ?? 'pending';
+        $paymentStatus = $_POST['payment_status'] ?? 'pending';
         $comment = trim($_POST['comment'] ?? '');
 
         $db = Database::getInstance();
@@ -98,15 +99,21 @@ class OrderController extends Controller {
             redirect('/dashboard/orders');
         }
 
-        // Update Order Status
-        $stmt = $db->prepare("UPDATE orders SET order_status = ?, updated_at = NOW() WHERE id = ? AND store_id = ?");
-        $stmt->execute([$newStatus, $orderId, $store['id']]);
+        // Update Order Status & Payment Status
+        $stmt = $db->prepare("UPDATE orders SET order_status = ?, payment_status = ?, updated_at = NOW() WHERE id = ? AND store_id = ?");
+        $stmt->execute([$newStatus, $paymentStatus, $orderId, $store['id']]);
+
+        // Also update payments table if present
+        $stmt = $db->prepare("UPDATE payments SET status = ?, updated_at = NOW() WHERE order_id = ?");
+        $pStatus = ($paymentStatus === 'paid') ? 'verified' : (($paymentStatus === 'rejected') ? 'rejected' : 'pending');
+        $stmt->execute([$pStatus, $orderId]);
 
         // Record Order Status History
         $stmt = $db->prepare("INSERT INTO order_status_history (order_id, status, comment, changed_by_user_id) VALUES (?, ?, ?, ?)");
-        $stmt->execute([$orderId, $newStatus, $comment ?: ('Status updated to ' . $newStatus), $user['id']]);
+        $historyComment = ($comment ? $comment . " | " : "") . "Payment Status set to " . strtoupper($paymentStatus);
+        $stmt->execute([$orderId, $newStatus, $historyComment, $user['id']]);
 
-        $_SESSION['flash_success'] = 'Order status updated to ' . sanitize($newStatus) . '.';
+        $_SESSION['flash_success'] = 'Order status updated to ' . sanitize($newStatus) . ' and Payment Status to ' . sanitize($paymentStatus) . '.';
         redirect('/dashboard/orders/' . $orderId);
     }
 }
