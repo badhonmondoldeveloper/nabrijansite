@@ -2,7 +2,7 @@
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <title><?= sanitize($pageTitle ?? 'Online Store') ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
@@ -25,7 +25,7 @@
     ?>
 
     <!-- Main Storefront View Content -->
-    <main class="py-4">
+    <main class="py-3 py-md-4">
         <?= $content ?>
     </main>
 
@@ -36,6 +36,40 @@
             require $footerPath;
         }
     ?>
+
+    <!-- Sliding Mobile Navigation Drawer -->
+    <div class="store-nav-backdrop" id="navBackdrop" onclick="toggleNavDrawer(false)"></div>
+    <div class="store-nav-drawer" id="navDrawer">
+        <div class="store-nav-drawer-header">
+            <h6 class="fw-bold mb-0 text-success"><i class="bi bi-shop me-2"></i> <?= sanitize($store['name']) ?></h6>
+            <button class="btn-close" onclick="toggleNavDrawer(false)"></button>
+        </div>
+        <div class="store-nav-drawer-body">
+            <a href="/store/<?= sanitize($store['slug']) ?>" class="store-nav-item-link active">
+                <i class="bi bi-house"></i> Home
+            </a>
+            <a href="/store/<?= sanitize($store['slug']) ?>#categories" class="store-nav-item-link">
+                <i class="bi bi-grid"></i> Categories
+            </a>
+            <a href="/store/<?= sanitize($store['slug']) ?>#products" class="store-nav-item-link">
+                <i class="bi bi-box-seam"></i> All Products
+            </a>
+            <a href="/store/<?= sanitize($store['slug']) ?>/cart" class="store-nav-item-link">
+                <i class="bi bi-bag"></i> Cart Page
+            </a>
+            <a href="/store/<?= sanitize($store['slug']) ?>/checkout" class="store-nav-item-link">
+                <i class="bi bi-credit-card"></i> Checkout
+            </a>
+            <?php if (!empty($storeSettings['phone'])): ?>
+                <div class="mt-4 pt-3 border-top">
+                    <small class="text-muted d-block mb-2">Customer Care</small>
+                    <a href="tel:<?= sanitize($storeSettings['phone']) ?>" class="store-nav-item-link text-success">
+                        <i class="bi bi-telephone"></i> <?= sanitize($storeSettings['phone']) ?>
+                    </a>
+                </div>
+            <?php endif; ?>
+        </div>
+    </div>
 
     <!-- Sliding Cart Drawer -->
     <div class="store-cart-backdrop" id="cartBackdrop" onclick="toggleCartDrawer(false)"></div>
@@ -65,9 +99,9 @@
             <i class="bi bi-house"></i>
             <span>Home</span>
         </a>
-        <a href="/store/<?= sanitize($store['slug']) ?>#categories" class="store-mobile-nav-item">
+        <a href="javascript:void(0)" onclick="toggleNavDrawer(true)" class="store-mobile-nav-item">
             <i class="bi bi-grid"></i>
-            <span>Categories</span>
+            <span>Menu</span>
         </a>
         <a href="javascript:void(0)" onclick="toggleCartDrawer(true)" class="store-mobile-nav-item position-relative">
             <i class="bi bi-bag"></i>
@@ -81,6 +115,18 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+        function toggleNavDrawer(open) {
+            const drawer = document.getElementById('navDrawer');
+            const backdrop = document.getElementById('navBackdrop');
+            if (open) {
+                drawer.classList.add('open');
+                backdrop.classList.add('open');
+            } else {
+                drawer.classList.remove('open');
+                backdrop.classList.remove('open');
+            }
+        }
+
         function toggleCartDrawer(open) {
             const drawer = document.getElementById('cartDrawer');
             const backdrop = document.getElementById('cartBackdrop');
@@ -110,7 +156,6 @@
             fetch('/store/<?= sanitize($store['slug']) ?>/cart')
                 .then(res => res.text())
                 .then(html => {
-                    // Extract cart items preview or render quick drawer snippet
                     updateCartBadge();
                 }).catch(() => {});
         }

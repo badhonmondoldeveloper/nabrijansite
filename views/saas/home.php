@@ -81,19 +81,19 @@
                 </div>
                 <div class="p-4 text-start">
                     <div class="row g-3 mb-3">
-                        <div class="col-4">
+                        <div class="col-12 col-md-4">
                             <div class="p-3 bg-dark rounded border border-secondary">
                                 <small class="text-secondary">Today's Revenue</small>
                                 <h4 class="fw-bold text-success mb-0">৳84,520 <small class="fs-6 text-success"><i class="bi bi-arrow-up-right"></i> 12.8%</small></h4>
                             </div>
                         </div>
-                        <div class="col-4">
+                        <div class="col-12 col-md-4">
                             <div class="p-3 bg-dark rounded border border-secondary">
                                 <small class="text-secondary">Live Orders</small>
                                 <h4 class="fw-bold text-light mb-0">128 Orders</h4>
                             </div>
                         </div>
-                        <div class="col-4">
+                        <div class="col-12 col-md-4">
                             <div class="p-3 bg-dark rounded border border-secondary">
                                 <small class="text-secondary">Active Customers</small>
                                 <h4 class="fw-bold text-info mb-0">1,420 Users</h4>
@@ -234,25 +234,25 @@
                     <span class="badge bg-success">● Store Active</span>
                 </div>
                 <div class="row g-3">
-                    <div class="col-md-3">
+                    <div class="col-6 col-md-3">
                         <div class="p-3 bg-secondary bg-opacity-10 rounded border border-secondary">
                             <div class="small text-secondary">Total Orders</div>
                             <div class="h4 fw-bold text-light mb-0">1,280</div>
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-6 col-md-3">
                         <div class="p-3 bg-secondary bg-opacity-10 rounded border border-secondary">
                             <div class="small text-secondary">Total Revenue</div>
                             <div class="h4 fw-bold text-success mb-0">৳458,900</div>
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-6 col-md-3">
                         <div class="p-3 bg-secondary bg-opacity-10 rounded border border-secondary">
                             <div class="small text-secondary">Products Stocked</div>
                             <div class="h4 fw-bold text-info mb-0">340 Items</div>
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-6 col-md-3">
                         <div class="p-3 bg-secondary bg-opacity-10 rounded border border-secondary">
                             <div class="small text-secondary">Avg Rating</div>
                             <div class="h4 fw-bold text-warning mb-0">4.9 / 5.0</div>
