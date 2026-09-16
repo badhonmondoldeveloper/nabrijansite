@@ -8,7 +8,16 @@
         </div>
     <?php endif; ?>
 
+    <?php
+        $old = $old ?? [];
+        $deliveryLocation = $old['delivery_location'] ?? 'dhaka';
+        $paymentMethod = $old['payment_method'] ?? 'cod';
+        $dhakaFee = (float)($storeSettings['dhaka_delivery_charge'] ?? 60);
+        $outsideFee = (float)($storeSettings['outside_dhaka_delivery_charge'] ?? 120);
+        $selectedFee = $deliveryLocation === 'outside_dhaka' ? $outsideFee : $dhakaFee;
+    ?>
     <form action="/store/<?= sanitize($store['slug']) ?>/checkout" method="POST">
+        <input type="hidden" name="_csrf_token" value="<?= csrf_token() ?>">
         <div class="row g-3 g-md-4">
             <!-- Customer & Delivery Form -->
             <div class="col-lg-8">
@@ -18,16 +27,16 @@
                     <div class="row g-3">
                         <div class="col-md-6 mb-1 mb-md-3">
                             <label for="name" class="form-label text-muted small fw-bold">Full Name <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="name" name="name" required placeholder="e.g. Rahim Uddin" autocomplete="name">
+                            <input type="text" class="form-control" id="name" name="name" required placeholder="e.g. Rahim Uddin" autocomplete="name" value="<?= sanitize($old['name'] ?? '') ?>">
                         </div>
                         <div class="col-md-6 mb-1 mb-md-3">
                             <label for="phone" class="form-label text-muted small fw-bold">Phone Number (BD +880) <span class="text-danger">*</span></label>
-                            <input type="tel" class="form-control" id="phone" name="phone" required placeholder="01712345678" autocomplete="tel" inputmode="tel">
+                            <input type="tel" class="form-control" id="phone" name="phone" required placeholder="01712345678" autocomplete="tel" inputmode="tel" value="<?= sanitize($old['phone'] ?? '') ?>">
                         </div>
                     </div>
                     <div class="mt-2">
                         <label for="email" class="form-label text-muted small fw-bold">Email Address (Optional)</label>
-                        <input type="email" class="form-control" id="email" name="email" placeholder="customer@example.com" autocomplete="email">
+                        <input type="email" class="form-control" id="email" name="email" placeholder="customer@example.com" autocomplete="email" value="<?= sanitize($old['email'] ?? '') ?>">
                     </div>
                 </div>
 
@@ -41,7 +50,7 @@
                             <div class="col-6">
                                 <div class="store-payment-card" onclick="document.getElementById('location_dhaka').click()">
                                     <div class="form-check m-0">
-                                        <input class="form-check-input" type="radio" name="delivery_location" id="location_dhaka" value="dhaka" checked onchange="updateDeliveryFee(<?= (float)($storeSettings['dhaka_delivery_charge'] ?? 60) ?>)">
+                                        <input class="form-check-input" type="radio" name="delivery_location" id="location_dhaka" value="dhaka" <?= $deliveryLocation !== 'outside_dhaka' ? 'checked' : '' ?> onchange="updateDeliveryFee(<?= $dhakaFee ?>)">
                                         <label class="form-check-label fw-bold d-block small" for="location_dhaka">
                                             Inside Dhaka
                                             <span class="d-block text-success small font-weight-normal"><?= format_bdt($storeSettings['dhaka_delivery_charge'] ?? 60) ?></span>
@@ -52,7 +61,7 @@
                             <div class="col-6">
                                 <div class="store-payment-card" onclick="document.getElementById('location_outside').click()">
                                     <div class="form-check m-0">
-                                        <input class="form-check-input" type="radio" name="delivery_location" id="location_outside" value="outside_dhaka" onchange="updateDeliveryFee(<?= (float)($storeSettings['outside_dhaka_delivery_charge'] ?? 120) ?>)">
+                                        <input class="form-check-input" type="radio" name="delivery_location" id="location_outside" value="outside_dhaka" <?= $deliveryLocation === 'outside_dhaka' ? 'checked' : '' ?> onchange="updateDeliveryFee(<?= $outsideFee ?>)">
                                         <label class="form-check-label fw-bold d-block small" for="location_outside">
                                             Outside Dhaka
                                             <span class="d-block text-success small font-weight-normal"><?= format_bdt($storeSettings['outside_dhaka_delivery_charge'] ?? 120) ?></span>
@@ -66,20 +75,20 @@
                     <div class="row g-3">
                         <div class="col-6 mb-1 mb-md-3">
                             <label for="division" class="form-label text-muted small fw-bold">Division</label>
-                            <input type="text" class="form-control" id="division" name="division" value="Dhaka">
+                            <input type="text" class="form-control" id="division" name="division" value="<?= sanitize($old['division'] ?? 'Dhaka') ?>">
                         </div>
                         <div class="col-6 mb-1 mb-md-3">
                             <label for="district" class="form-label text-muted small fw-bold">District</label>
-                            <input type="text" class="form-control" id="district" name="district" value="Dhaka">
+                            <input type="text" class="form-control" id="district" name="district" value="<?= sanitize($old['district'] ?? 'Dhaka') ?>">
                         </div>
                     </div>
                     <div class="mb-3">
                         <label for="full_address" class="form-label text-muted small fw-bold">Full Address <span class="text-danger">*</span></label>
-                        <textarea class="form-control" id="full_address" name="full_address" rows="2" required placeholder="House #, Road #, Area, Landmarks..."></textarea>
+                        <textarea class="form-control" id="full_address" name="full_address" rows="2" required placeholder="House #, Road #, Area, Landmarks..."><?= sanitize($old['full_address'] ?? '') ?></textarea>
                     </div>
                     <div class="mb-0">
                         <label for="notes" class="form-label text-muted small fw-bold">Order Notes (Optional)</label>
-                        <input type="text" class="form-control" id="notes" name="notes" placeholder="Special delivery instructions...">
+                        <input type="text" class="form-control" id="notes" name="notes" placeholder="Special delivery instructions..." value="<?= sanitize($old['notes'] ?? '') ?>">
                     </div>
                 </div>
 
@@ -91,7 +100,7 @@
                     <?php if ($storeSettings['cod_enabled'] ?? 1): ?>
                         <div class="store-payment-card mb-2" onclick="selectPaymentMethod('cod')">
                             <div class="form-check w-100 m-0">
-                                <input class="form-check-input" type="radio" name="payment_method" id="pay_cod" value="cod" checked>
+                                <input class="form-check-input" type="radio" name="payment_method" id="pay_cod" value="cod" <?= $paymentMethod === 'cod' ? 'checked' : '' ?>>
                                 <label class="form-check-label fw-bold d-block text-dark" for="pay_cod">
                                     <i class="bi bi-cash me-2 text-success"></i> Cash on Delivery (COD)
                                     <span class="d-block small text-muted font-weight-normal">Pay with cash when package arrives</span>
@@ -104,7 +113,7 @@
                     <?php if (!empty($storeSettings['bkash_enabled']) && !empty($storeSettings['bkash_number'])): ?>
                         <div class="store-payment-card mb-2" onclick="selectPaymentMethod('bkash')">
                             <div class="form-check w-100 m-0">
-                                <input class="form-check-input" type="radio" name="payment_method" id="pay_bkash" value="bkash">
+                                <input class="form-check-input" type="radio" name="payment_method" id="pay_bkash" value="bkash" <?= $paymentMethod === 'bkash' ? 'checked' : '' ?>>
                                 <label class="form-check-label fw-bold d-block text-dark" for="pay_bkash">
                                     <span class="badge bg-danger me-2">bKash</span> Manual bKash Payment
                                 </label>
@@ -124,7 +133,7 @@
                     <?php if (!empty($storeSettings['nagad_enabled']) && !empty($storeSettings['nagad_number'])): ?>
                         <div class="store-payment-card mb-2" onclick="selectPaymentMethod('nagad')">
                             <div class="form-check w-100 m-0">
-                                <input class="form-check-input" type="radio" name="payment_method" id="pay_nagad" value="nagad">
+                                <input class="form-check-input" type="radio" name="payment_method" id="pay_nagad" value="nagad" <?= $paymentMethod === 'nagad' ? 'checked' : '' ?>>
                                 <label class="form-check-label fw-bold d-block text-dark" for="pay_nagad">
                                     <span class="badge bg-warning text-dark me-2">Nagad</span> Manual Nagad Payment
                                 </label>
@@ -144,7 +153,7 @@
                     <?php if (!empty($storeSettings['rocket_enabled']) && !empty($storeSettings['rocket_number'])): ?>
                         <div class="store-payment-card mb-2" onclick="selectPaymentMethod('rocket')">
                             <div class="form-check w-100 m-0">
-                                <input class="form-check-input" type="radio" name="payment_method" id="pay_rocket" value="rocket">
+                                <input class="form-check-input" type="radio" name="payment_method" id="pay_rocket" value="rocket" <?= $paymentMethod === 'rocket' ? 'checked' : '' ?>>
                                 <label class="form-check-label fw-bold d-block text-dark" for="pay_rocket">
                                     <span class="badge bg-primary me-2">Rocket</span> Manual Rocket Payment
                                 </label>
@@ -166,11 +175,11 @@
                         <div class="row g-2">
                             <div class="col-md-6 mb-1">
                                 <label for="transaction_id" class="form-label small fw-bold">Transaction ID (TrxID) <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="transaction_id" name="transaction_id" placeholder="e.g. 9N8B7A6C5">
+                                <input type="text" class="form-control" id="transaction_id" name="transaction_id" placeholder="e.g. 9N8B7A6C5" value="<?= sanitize($old['transaction_id'] ?? '') ?>">
                             </div>
                             <div class="col-md-6 mb-1">
                                 <label for="payment_note" class="form-label small fw-bold">Sender Mobile / Account</label>
-                                <input type="tel" class="form-control" id="payment_note" name="payment_note" placeholder="Sender phone number" inputmode="tel">
+                                <input type="tel" class="form-control" id="payment_note" name="payment_note" placeholder="Sender phone number" inputmode="tel" value="<?= sanitize($old['payment_note'] ?? '') ?>">
                             </div>
                         </div>
                     </div>
@@ -199,12 +208,12 @@
                     </div>
                     <div class="d-flex justify-content-between mb-3 text-muted small">
                         <span>Delivery Fee</span>
-                        <span class="text-success fw-bold" id="deliveryFeeDisplay"><?= format_bdt($storeSettings['dhaka_delivery_charge'] ?? 60) ?></span>
+                        <span class="text-success fw-bold" id="deliveryFeeDisplay"><?= format_bdt($selectedFee) ?></span>
                     </div>
                     <hr class="my-2">
                     <div class="d-flex justify-content-between mb-4">
                         <span class="fs-6 fs-md-5 fw-bold">Total Amount</span>
-                        <span class="fs-5 fs-md-4 fw-bold text-success" id="totalAmountDisplay"><?= format_bdt($cart['subtotal'] + ($storeSettings['dhaka_delivery_charge'] ?? 60)) ?></span>
+                        <span class="fs-5 fs-md-4 fw-bold text-success" id="totalAmountDisplay"><?= format_bdt($cart['subtotal'] + $selectedFee) ?></span>
                     </div>
 
                     <button type="submit" class="btn btn-success w-100 py-3 fw-bold fs-5 rounded-pill shadow-sm" style="min-height: 48px;">Place Order Now</button>
@@ -231,12 +240,16 @@
         });
 
         const inputs = document.getElementById('manualPaymentInputs');
-        if (method === 'cod') {
-            inputs.style.display = 'none';
-        } else {
-            inputs.style.display = 'block';
-            const target = document.getElementById(method + '_details');
-            if (target) target.style.display = 'block';
+        if (inputs) {
+            if (method === 'cod') {
+                inputs.style.display = 'none';
+            } else {
+                inputs.style.display = 'block';
+                const target = document.getElementById(method + '_details');
+                if (target) target.style.display = 'block';
+            }
         }
     }
+
+    selectPaymentMethod(<?= json_encode($paymentMethod) ?>);
 </script>
