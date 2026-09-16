@@ -301,7 +301,7 @@ body.storefront-body {
   margin-bottom: 16px;
 }
 
-/* --- Mobile Product Grid (3-Columns on Mobile, 4-Columns Desktop) --- */
+/* --- Storefront Product Grid (3-Columns Mobile, 6-Columns Full Screen) --- */
 .store-product-grid-mobile {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -309,20 +309,26 @@ body.storefront-body {
 }
 @media (min-width: 576px) {
   .store-product-grid-mobile {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 10px;
   }
 }
 @media (min-width: 768px) {
   .store-product-grid-mobile {
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 16px;
+    gap: 12px;
   }
 }
 @media (min-width: 992px) {
   .store-product-grid-mobile {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 14px;
+  }
+}
+@media (min-width: 1200px) {
+  .store-product-grid-mobile {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 16px;
   }
 }
 
