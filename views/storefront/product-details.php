@@ -228,11 +228,22 @@
 </div>
 
 <script>
+function getSelectedSize() {
+    const active = document.querySelector('#sizeOptions .btn.active');
+    return active ? active.innerText.trim() : '';
+}
+function getSelectedColor() {
+    const active = document.querySelector('#colorOptions .btn.active');
+    return active ? active.innerText.trim() : '';
+}
+
 function buyNow(productId, qty = 1) {
+    const size = getSelectedSize();
+    const color = getSelectedColor();
     fetch('/store/<?= sanitize($store['slug']) ?>/cart/add', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ product_id: productId, quantity: qty })
+        body: JSON.stringify({ product_id: productId, quantity: qty, size: size, color: color })
     }).then(res => res.json()).then(data => {
         if (data.success) {
             window.location.href = '/store/<?= sanitize($store['slug']) ?>/checkout';

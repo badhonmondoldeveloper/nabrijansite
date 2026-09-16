@@ -96,6 +96,7 @@
                             </td>
                             <td><span class="badge bg-success"><?= sanitize($prod['status']) ?></span></td>
                             <td>
+                                <a href="/dashboard/products/edit/<?= $prod['id'] ?>" class="btn btn-sm btn-outline-warning me-1" title="Edit Product"><i class="bi bi-pencil"></i></a>
                                 <form action="/dashboard/products/delete/<?= $prod['id'] ?>" method="POST" onsubmit="return confirm('Are you sure you want to delete this product?');" style="display:inline;">
                                     <input type="hidden" name="_csrf_token" value="<?= \App\Helpers\Security::generateCsrfToken() ?>">
                                     <button type="submit" class="btn btn-sm btn-outline-danger" title="Delete Product"><i class="bi bi-trash"></i></button>

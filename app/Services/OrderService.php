@@ -96,7 +96,7 @@ class OrderService {
                 'division' => $shippingData['division'] ?? ''
             ]);
 
-            $stmt = $db->prepare("INSERT INTO orders (store_id, customer_id, order_number, subtotal, discount_amount, delivery_charge, total_amount, order_status, payment_status, shipping_address_json, customer_notes) VALUES (?, ?, ?, ?, ?, ?, ?, 'pending', 'pending', ?, ?)");
+            $stmt = $db->prepare("INSERT INTO orders (store_id, customer_id, order_number, subtotal, discount_amount, delivery_charge, total_amount, order_status, payment_status, shipping_address_json, customer_notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             $stmt->execute([
                 $storeId,
                 $customerId,
@@ -105,6 +105,8 @@ class OrderService {
                 $discountAmount,
                 $deliveryCharge,
                 $totalAmount,
+                'pending',
+                'pending',
                 $shippingJson,
                 $customerData['notes'] ?? null
             ]);
@@ -112,12 +114,20 @@ class OrderService {
 
             // 6. Create Order Items & Deduct Stock
             foreach ($cart['items'] as $item) {
+                $displayName = $item['name'];
+                $variantDetails = [];
+                if (!empty($item['size'])) $variantDetails[] = 'Size: ' . $item['size'];
+                if (!empty($item['color'])) $variantDetails[] = 'Color: ' . $item['color'];
+                if (!empty($variantDetails)) {
+                    $displayName .= ' (' . implode(', ', $variantDetails) . ')';
+                }
+
                 // Insert Item
                 $stmt = $db->prepare("INSERT INTO order_items (order_id, product_id, product_name, unit_price, quantity, total_price) VALUES (?, ?, ?, ?, ?, ?)");
                 $stmt->execute([
                     $orderId,
                     $item['product_id'],
-                    $item['name'],
+                    $displayName,
                     $item['unit_price'],
                     $item['quantity'],
                     $item['total_price']

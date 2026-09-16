@@ -143,4 +143,106 @@ class ProductService {
             return ['success' => false, 'errors' => ['general' => $e->getMessage()]];
         }
     }
+
+    /**
+     * Update existing product for tenant store.
+     */
+    public function updateProduct(int $productId, int $storeId, array $data, array $imageFiles = []): array {
+        $existing = $this->productModel->findForStore($productId, $storeId);
+        if (!$existing) {
+            return ['success' => false, 'errors' => ['general' => 'Product not found.']];
+        }
+
+        $errors = [];
+        if (empty($data['name'])) {
+            $errors['name'] = 'Product Name is required.';
+        }
+
+        $price = (float)($data['price'] ?? 0);
+        if ($price <= 0) {
+            $errors['price'] = 'Valid Product Price is required.';
+        }
+
+        if (!empty($errors)) {
+            return ['success' => false, 'errors' => $errors];
+        }
+
+        $db = Database::getInstance();
+        try {
+            $db->beginTransaction();
+
+            $updateData = [
+                'category_id' => !empty($data['category_id']) ? (int)$data['category_id'] : null,
+                'name' => trim($data['name']),
+                'description' => $data['description'] ?? null,
+                'short_description' => $data['short_description'] ?? null,
+                'brand' => $data['brand'] ?? null,
+                'price' => $price,
+                'discount_price' => !empty($data['discount_price']) ? (float)$data['discount_price'] : null,
+                'cost_price' => !empty($data['cost_price']) ? (float)$data['cost_price'] : null,
+                'sku' => !empty($data['sku']) ? trim($data['sku']) : $existing['sku'],
+                'stock' => (int)($data['stock'] ?? $existing['stock']),
+                'low_stock_threshold' => (int)($data['low_stock_threshold'] ?? 5),
+                'status' => $data['status'] ?? 'active',
+                'is_featured' => !empty($data['is_featured']) ? 1 : 0,
+                'seo_title' => $data['seo_title'] ?? null,
+                'seo_description' => $data['seo_description'] ?? null
+            ];
+
+            $this->productModel->updateForStore($productId, $storeId, $updateData);
+
+            // Process Image Uploads if provided
+            if (!empty($imageFiles['name']) && is_array($imageFiles['name'])) {
+                $hasPrimary = !empty($this->productImageModel->getPrimaryForProduct($productId));
+                for ($i = 0; $i < count($imageFiles['name']); $i++) {
+                    if ($imageFiles['error'][$i] === UPLOAD_ERR_OK) {
+                        $singleFile = [
+                            'name' => $imageFiles['name'][$i],
+                            'type' => $imageFiles['type'][$i],
+                            'tmp_name' => $imageFiles['tmp_name'][$i],
+                            'error' => $imageFiles['error'][$i],
+                            'size' => $imageFiles['size'][$i]
+                        ];
+                        $imagePath = ImageService::processAndSaveImage($singleFile, $storeId, 'products');
+                        $this->productImageModel->addImage($productId, $imagePath, !$hasPrimary);
+                        $hasPrimary = true;
+                    }
+                }
+            }
+
+            // Process Variants (Sizes & Colors)
+            if (isset($data['sizes']) || isset($data['colors'])) {
+                $sizesInput = trim($data['sizes'] ?? '');
+                $colorsInput = trim($data['colors'] ?? '');
+                $sizes = !empty($sizesInput) ? array_filter(array_map('trim', explode(',', $sizesInput))) : [];
+                $colors = !empty($colorsInput) ? array_filter(array_map('trim', explode(',', $colorsInput))) : [];
+
+                $variantModel = new \App\Models\ProductVariant();
+                $variantModel->deleteVariantsForProduct($productId);
+
+                if (!empty($sizes) && !empty($colors)) {
+                    foreach ($sizes as $sz) {
+                        foreach ($colors as $cl) {
+                            $variantModel->addVariant($productId, ['size' => $sz, 'color' => $cl], $price, (int)($data['stock'] ?? 10));
+                        }
+                    }
+                } elseif (!empty($sizes)) {
+                    foreach ($sizes as $sz) {
+                        $variantModel->addVariant($productId, ['size' => $sz], $price, (int)($data['stock'] ?? 10));
+                    }
+                } elseif (!empty($colors)) {
+                    foreach ($colors as $cl) {
+                        $variantModel->addVariant($productId, ['color' => $cl], $price, (int)($data['stock'] ?? 10));
+                    }
+                }
+            }
+
+            $db->commit();
+            return ['success' => true, 'product_id' => $productId];
+
+        } catch (Exception $e) {
+            $db->rollBack();
+            return ['success' => false, 'errors' => ['general' => $e->getMessage()]];
+        }
+    }
 }

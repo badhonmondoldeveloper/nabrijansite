@@ -104,7 +104,12 @@ function format_bdt(float $amount): string {
  * Generate full URL.
  */
 function url(string $path = ''): string {
-    $baseUrl = rtrim(config('app.url'), '/');
+    if (str_starts_with($path, 'http://') || str_starts_with($path, 'https://')) {
+        return $path;
+    }
+    $scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+    $host = $_SERVER['HTTP_HOST'] ?? 'nabrijan.site';
+    $baseUrl = $scheme . '://' . $host;
     return $baseUrl . '/' . ltrim($path, '/');
 }
 
@@ -112,7 +117,11 @@ function url(string $path = ''): string {
  * Redirect to path.
  */
 function redirect(string $path): void {
-    header('Location: ' . url($path));
+    if (str_starts_with($path, '/')) {
+        header('Location: ' . $path);
+    } else {
+        header('Location: ' . url($path));
+    }
     exit;
 }
 

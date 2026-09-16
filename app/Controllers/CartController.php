@@ -54,8 +54,10 @@ class CartController extends Controller {
         $input = json_decode(file_get_contents('php://input'), true) ?? $_POST;
         $productId = (int)($input['product_id'] ?? 0);
         $quantity = (int)($input['quantity'] ?? 1);
+        $size = trim($input['size'] ?? '');
+        $color = trim($input['color'] ?? '');
 
-        $added = $this->cartService->addItem($store['id'], $productId, $quantity);
+        $added = $this->cartService->addItem($store['id'], $productId, $quantity, $size, $color);
         if ($added) {
             $cart = $this->cartService->getCart($store['id']);
             $this->success('Added to cart', ['count' => $cart['item_count']]);

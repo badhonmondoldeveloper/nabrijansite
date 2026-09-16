@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'host' => env('DB_HOST', '127.0.0.1'),
+    'host' => env('DB_HOST', 'localhost'),
     'port' => env('DB_PORT', '3306'),
     'dbname' => env('DB_NAME', 'nabrijan_db'),
     'username' => env('DB_USER', 'nabrijan_user'),

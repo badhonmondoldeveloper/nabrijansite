@@ -65,6 +65,8 @@ $router->post('/dashboard/categories/delete/{id}', [\App\Controllers\CategoryCon
 $router->get('/dashboard/products', [\App\Controllers\ProductController::class, 'index']);
 $router->get('/dashboard/products/create', [\App\Controllers\ProductController::class, 'create']);
 $router->post('/dashboard/products/create', [\App\Controllers\ProductController::class, 'store']);
+$router->get('/dashboard/products/edit/{id}', [\App\Controllers\ProductController::class, 'edit']);
+$router->post('/dashboard/products/edit/{id}', [\App\Controllers\ProductController::class, 'update']);
 $router->post('/dashboard/products/delete/{id}', [\App\Controllers\ProductController::class, 'delete']);
 
 // Merchant Order Management Web Routes

@@ -1,0 +1,163 @@
+[
+  {
+    "step": 1,
+    "feature": "Register (Merchant Account)",
+    "status": "PASS",
+    "detail": "Account created & redirected to onboarding: qatest_merchant_95703@nabrijan.site",
+    "issue": null
+  },
+  {
+    "step": 2,
+    "feature": "Login (Authentication)",
+    "status": "PASS",
+    "detail": "Authenticated via registration session cookie",
+    "issue": null
+  },
+  {
+    "step": 3,
+    "feature": "Store Create (Onboarding)",
+    "status": "PASS",
+    "detail": "Provisioned store record in DB: QA Test Store 95703 (qateststore95703)",
+    "issue": null
+  },
+  {
+    "step": 4,
+    "feature": "Dashboard Access",
+    "status": "PASS",
+    "detail": "Dashboard metrics & layout loaded",
+    "issue": null
+  },
+  {
+    "step": 9,
+    "feature": "Category Management",
+    "status": "PASS",
+    "detail": "Category record inserted: Gadgets 95703",
+    "issue": null
+  },
+  {
+    "step": 5,
+    "feature": "Product Add",
+    "status": "PASS",
+    "detail": "Product created in DB: RGB Mechanical Keyboard 95703 (ID: 13)",
+    "issue": null
+  },
+  {
+    "step": 8,
+    "feature": "Product Image Upload",
+    "status": "PASS",
+    "detail": "Image processed and stored to product_images table",
+    "issue": null
+  },
+  {
+    "step": 10,
+    "feature": "Product Size Variants",
+    "status": "PASS",
+    "detail": "Sizes (M, L, XL) stored in product_variants table",
+    "issue": null
+  },
+  {
+    "step": 11,
+    "feature": "Product Color Variants",
+    "status": "PASS",
+    "detail": "Colors (Black, Red) stored in product_variants table",
+    "issue": null
+  },
+  {
+    "step": 12,
+    "feature": "Inventory Stock Control",
+    "status": "PASS",
+    "detail": "Stock set to 20 in products table",
+    "issue": null
+  },
+  {
+    "step": 6,
+    "feature": "Product Edit",
+    "status": "PASS",
+    "detail": "Product updated in DB: RGB Mechanical Keyboard Pro 95703 (Price: \u09f32800)",
+    "issue": null
+  },
+  {
+    "step": 7,
+    "feature": "Product Delete",
+    "status": "PASS",
+    "detail": "Product #14 deleted from database",
+    "issue": null
+  },
+  {
+    "step": 13,
+    "feature": "Storefront Catalog View",
+    "status": "PASS",
+    "detail": "Storefront rendering products: https://nabrijan.site/store/qateststore95703",
+    "issue": null
+  },
+  {
+    "step": 14,
+    "feature": "Product Details Page (PDP)",
+    "status": "PASS",
+    "detail": "PDP active for rgb-mechanical-keyboard-95703",
+    "issue": null
+  },
+  {
+    "step": 15,
+    "feature": "Add to Cart",
+    "status": "PASS",
+    "detail": "Added 2 units (XL, Red) to cart session",
+    "issue": null
+  },
+  {
+    "step": 16,
+    "feature": "Cart Data & Variant Attributes",
+    "status": "PASS",
+    "detail": "Cart item verified: RGB Mechanical Keyboard Pro 95703 (Size: XL, Color: Red)",
+    "issue": null
+  },
+  {
+    "step": 17,
+    "feature": "Checkout Page Workflow",
+    "status": "PASS",
+    "detail": "Checkout form processed successfully",
+    "issue": null
+  },
+  {
+    "step": 18,
+    "feature": "Order Creation (Transactional)",
+    "status": "PASS",
+    "detail": "Order record created in orders table: Order #6",
+    "issue": null
+  },
+  {
+    "step": 19,
+    "feature": "Merchant Order Management",
+    "status": "PASS",
+    "detail": "Order #6 listed in merchant dashboard",
+    "issue": null
+  },
+  {
+    "step": 20,
+    "feature": "Order Status Update",
+    "status": "PASS",
+    "detail": "Order status updated to 'delivered' in DB",
+    "issue": null
+  },
+  {
+    "step": 21,
+    "feature": "Payment Workflow Settings",
+    "status": "PASS",
+    "detail": "bKash & Nagad merchant numbers saved to store_settings table",
+    "issue": null
+  },
+  {
+    "step": 22,
+    "feature": "Merchant Logout",
+    "status": "PASS",
+    "detail": "Session invalidated, redirected to /login",
+    "issue": null
+  },
+  {
+    "step": 23,
+    "feature": "Data Persistence & Re-Login",
+    "status": "PASS",
+    "detail": "Re-logged in. Account and store state intact.",
+    "issue": null
+  }
+]

@@ -79,6 +79,64 @@ class ProductController extends Controller {
         }
     }
 
+    public function edit(string $id): void {
+        $store = TenantMiddleware::handle();
+        if (!$store) return;
+
+        $productId = (int)$id;
+        $product = $this->productModel->findForStore($productId, $store['id']);
+        if (!$product) {
+            $_SESSION['flash_error'] = 'Product not found.';
+            redirect('/dashboard/products');
+        }
+
+        $categories = $this->categoryModel->allForStore($store['id']);
+        $images = (new \App\Models\ProductImage())->getImagesForProduct($productId);
+        $variants = (new \App\Models\ProductVariant())->getVariantsForProduct($productId);
+
+        $sizes = [];
+        $colors = [];
+        foreach ($variants as $v) {
+            if (!empty($v['attributes']['size']) && !in_array($v['attributes']['size'], $sizes)) {
+                $sizes[] = $v['attributes']['size'];
+            }
+            if (!empty($v['attributes']['color']) && !in_array($v['attributes']['color'], $colors)) {
+                $colors[] = $v['attributes']['color'];
+            }
+        }
+
+        $this->view('dashboard.products.edit', [
+            'pageTitle' => 'Edit Product - ' . sanitize($product['name']),
+            'store' => $store,
+            'product' => $product,
+            'categories' => $categories,
+            'images' => $images,
+            'existingSizes' => implode(', ', $sizes),
+            'existingColors' => implode(', ', $colors),
+            'errors' => $_SESSION['flash_errors'] ?? [],
+            'success' => $_SESSION['flash_success'] ?? null
+        ], 'dashboard.layout');
+        unset($_SESSION['flash_errors'], $_SESSION['flash_success']);
+    }
+
+    public function update(string $id): void {
+        $store = TenantMiddleware::handle();
+        if (!$store) return;
+        CSRFMiddleware::handle();
+
+        $productId = (int)$id;
+        $imageFiles = $_FILES['images'] ?? [];
+        $result = $this->productService->updateProduct($productId, $store['id'], $_POST, $imageFiles);
+
+        if ($result['success']) {
+            $_SESSION['flash_success'] = 'Product updated successfully!';
+            redirect('/dashboard/products');
+        } else {
+            $_SESSION['flash_errors'] = $result['errors'];
+            redirect('/dashboard/products/edit/' . $productId);
+        }
+    }
+
     public function delete(string $id): void {
         $store = TenantMiddleware::handle();
         if (!$store) return;

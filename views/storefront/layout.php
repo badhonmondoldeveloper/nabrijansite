@@ -186,11 +186,13 @@
                 });
         }
 
-        function addToCart(productId, qty = 1) {
+        function addToCart(productId, qty = 1, size = '', color = '') {
+            if (!size && typeof getSelectedSize === 'function') size = getSelectedSize();
+            if (!color && typeof getSelectedColor === 'function') color = getSelectedColor();
             fetch('/store/<?= sanitize($store['slug']) ?>/cart/add', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ product_id: productId, quantity: qty })
+                body: JSON.stringify({ product_id: productId, quantity: qty, size: size, color: color })
             }).then(res => res.json()).then(data => {
                 if (data.success) {
                     updateCartBadge();
