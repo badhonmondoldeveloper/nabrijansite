@@ -3,7 +3,7 @@
     "step": 1,
     "feature": "Register (Merchant Account)",
     "status": "PASS",
-    "detail": "Account created & redirected to onboarding: qatest_merchant_94251@nabrijan.site",
+    "detail": "Account created & redirected to onboarding: qatest_merchant_71085@nabrijan.site",
     "issue": null
   },
   {
@@ -17,7 +17,7 @@
     "step": 3,
     "feature": "Store Create (Onboarding)",
     "status": "PASS",
-    "detail": "Provisioned store record in DB: QA Test Store 94251 (qateststore94251)",
+    "detail": "Provisioned store record in DB: QA Test Store 71085 (qateststore71085)",
     "issue": null
   },
   {
@@ -31,14 +31,14 @@
     "step": 9,
     "feature": "Category Management",
     "status": "PASS",
-    "detail": "Category record inserted: Gadgets 94251",
+    "detail": "Category record inserted: Gadgets 71085",
     "issue": null
   },
   {
     "step": 5,
     "feature": "Product Add",
     "status": "PASS",
-    "detail": "Product created in DB: RGB Mechanical Keyboard 94251 (ID: 15)",
+    "detail": "Product created in DB: RGB Mechanical Keyboard 71085 (ID: 20)",
     "issue": null
   },
   {
@@ -73,28 +73,28 @@
     "step": 6,
     "feature": "Product Edit",
     "status": "PASS",
-    "detail": "Product updated in DB: RGB Mechanical Keyboard Pro 94251 (Price: \u09f32800)",
+    "detail": "Product updated in DB: RGB Mechanical Keyboard Pro 71085 (Price: \u09f32800)",
     "issue": null
   },
   {
     "step": 7,
     "feature": "Product Delete",
     "status": "PASS",
-    "detail": "Product #16 deleted from database",
+    "detail": "Product #21 deleted from database",
     "issue": null
   },
   {
     "step": 13,
     "feature": "Storefront Catalog View",
     "status": "PASS",
-    "detail": "Storefront rendering products: https://nabrijan.site/store/qateststore94251",
+    "detail": "Storefront rendering products: https://nabrijan.site/store/qateststore71085",
     "issue": null
   },
   {
     "step": 14,
     "feature": "Product Details Page (PDP)",
     "status": "PASS",
-    "detail": "PDP active for rgb-mechanical-keyboard-94251",
+    "detail": "PDP active for rgb-mechanical-keyboard-71085",
     "issue": null
   },
   {
@@ -108,7 +108,7 @@
     "step": 16,
     "feature": "Cart Data & Variant Attributes",
     "status": "PASS",
-    "detail": "Cart item verified: RGB Mechanical Keyboard Pro 94251 (Size: XL, Color: Red)",
+    "detail": "Cart item verified: RGB Mechanical Keyboard Pro 71085 (Size: XL, Color: Red)",
     "issue": null
   },
   {
@@ -122,14 +122,14 @@
     "step": 18,
     "feature": "Order Creation (Transactional)",
     "status": "PASS",
-    "detail": "Order record created in orders table: Order #8",
+    "detail": "Order record created in orders table: Order #10",
     "issue": null
   },
   {
     "step": 19,
     "feature": "Merchant Order Management",
     "status": "PASS",
-    "detail": "Order #8 listed in merchant dashboard",
+    "detail": "Order #10 listed in merchant dashboard",
     "issue": null
   },
   {

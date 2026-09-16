@@ -59,7 +59,7 @@
                 <div class="mb-3">
                     <?php if ($product['stock'] <= 0): ?>
                         <span class="badge bg-danger fs-6 px-3 py-2 rounded-pill"><i class="bi bi-x-circle me-1"></i> Out of Stock</span>
-                    <?php elseif ($product['stock'] <= $product['low_stock_threshold']): ?>
+                    <?php elseif ($product['stock'] <= ($product['low_stock_threshold'] ?? 5)): ?>
                         <span class="badge bg-warning text-dark fs-6 px-3 py-2 rounded-pill"><i class="bi bi-exclamation-triangle me-1"></i> Only <?= $product['stock'] ?> Left in Stock</span>
                     <?php else: ?>
                         <span class="badge bg-success-subtle text-success border border-success fs-6 px-3 py-2 rounded-pill"><i class="bi bi-check-circle me-1"></i> In Stock (<?= $product['stock'] ?> Available)</span>
@@ -72,11 +72,12 @@
                 $colors = [];
                 if (!empty($variants)) {
                     foreach ($variants as $v) {
-                        if (!empty($v['attributes']['size']) && !in_array($v['attributes']['size'], $sizes)) {
-                            $sizes[] = $v['attributes']['size'];
+                        $attrs = (is_array($v) && !empty($v['attributes']) && is_array($v['attributes'])) ? $v['attributes'] : [];
+                        if (!empty($attrs['size']) && !in_array($attrs['size'], $sizes)) {
+                            $sizes[] = $attrs['size'];
                         }
-                        if (!empty($v['attributes']['color']) && !in_array($v['attributes']['color'], $colors)) {
-                            $colors[] = $v['attributes']['color'];
+                        if (!empty($attrs['color']) && !in_array($attrs['color'], $colors)) {
+                            $colors[] = $attrs['color'];
                         }
                     }
                 }

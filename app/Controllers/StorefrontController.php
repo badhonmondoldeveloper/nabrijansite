@@ -99,18 +99,32 @@ class StorefrontController extends Controller {
         $stmt->execute([$productSlug, $store['id']]);
         $product = $stmt->fetch();
 
+        $storeSettings = $this->storeSettingModel->findByStoreId($store['id']) ?: [];
+        $themeConfig = $this->themeService->getStoreThemeConfig($store['id']);
+
         if (!$product) {
             http_response_code(404);
-            $this->view('errors.404');
+            $this->view('storefront.product-not-found', [
+                'pageTitle' => 'Product Not Found - ' . sanitize($store['name']),
+                'store' => $store,
+                'storeSettings' => $storeSettings,
+                'themeConfig' => $themeConfig
+            ], 'storefront.layout');
             return;
         }
 
         $images = $this->productImageModel->getImagesForProduct($product['id']);
         $variantModel = new \App\Models\ProductVariant();
         $variants = $variantModel->getVariantsForProduct($product['id']);
-        $relatedProducts = $this->productModel->getPaginatedForStore($store['id'], 1, 4, '', $product['category_id'])['items'];
-        $storeSettings = $this->storeSettingModel->findByStoreId($store['id']);
-        $themeConfig = $this->themeService->getStoreThemeConfig($store['id']);
+
+        $relatedProducts = [];
+        if (!empty($product['category_id'])) {
+            $relatedResult = $this->productModel->getPaginatedForStore($store['id'], 1, 4, '', (int)$product['category_id']);
+            $relatedProducts = $relatedResult['items'] ?? [];
+        } else {
+            $relatedResult = $this->productModel->getPaginatedForStore($store['id'], 1, 4);
+            $relatedProducts = $relatedResult['items'] ?? [];
+        }
 
         $this->view('storefront.product-details', [
             'pageTitle' => sanitize($product['name']) . ' - ' . sanitize($store['name']),
