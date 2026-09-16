@@ -53,7 +53,7 @@ class Product extends Model {
     }
 
     public function findForStore(int $id, int $storeId): ?array {
-        $stmt = $this->getDb()->prepare("SELECT p.*, c.name as category_name FROM {$this->table} p LEFT JOIN categories c ON p.category_id = c.id WHERE p.id = ? AND p.store_id = ? AND p.deleted_at IS NULL LIMIT 1");
+        $stmt = $this->getDb()->prepare("SELECT p.*, c.name as category_name, (SELECT image_path FROM product_images WHERE product_id = p.id ORDER BY is_primary DESC, id ASC LIMIT 1) as primary_image FROM {$this->table} p LEFT JOIN categories c ON p.category_id = c.id WHERE p.id = ? AND p.store_id = ? AND p.deleted_at IS NULL LIMIT 1");
         $stmt->execute([$id, $storeId]);
         $res = $stmt->fetch();
         return $res ?: null;

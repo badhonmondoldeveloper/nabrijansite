@@ -115,15 +115,19 @@
 
                 <!-- Actions -->
                 <div class="d-flex flex-column gap-3 mb-4">
-                    <div class="d-flex align-items-center gap-3">
-                        <div class="input-group" style="width: 130px; height: 44px;">
+                    <div class="d-flex align-items-center gap-2 flex-wrap">
+                        <div class="input-group" style="width: 110px; height: 44px;">
                             <button class="btn btn-outline-secondary" type="button" onclick="const q = document.getElementById('qtyInput'); if(q.value>1) q.value--;">-</button>
-                            <input type="number" class="form-control text-center font-weight-bold" id="qtyInput" value="1" min="1" max="<?= $product['stock'] ?>">
+                            <input type="number" class="form-control text-center font-weight-bold px-1" id="qtyInput" value="1" min="1" max="<?= $product['stock'] ?>">
                             <button class="btn btn-outline-secondary" type="button" onclick="const q = document.getElementById('qtyInput'); q.value++;">+</button>
                         </div>
 
-                        <button class="btn btn-success btn-lg flex-grow-1 fw-bold rounded-pill" style="min-height: 44px;" onclick="addToCart(<?= $product['id'] ?>, document.getElementById('qtyInput').value)">
-                            <i class="bi bi-bag-plus me-1"></i> Add To Cart
+                        <button class="btn btn-outline-success btn-lg flex-grow-1 fw-bold rounded-pill" style="min-height: 44px;" onclick="addToCart(<?= $product['id'] ?>, document.getElementById('qtyInput').value)">
+                            <i class="bi bi-bag-plus me-1"></i> Cart
+                        </button>
+
+                        <button class="btn btn-success btn-lg flex-grow-1 fw-bold rounded-pill" style="min-height: 44px;" onclick="buyNow(<?= $product['id'] ?>, document.getElementById('qtyInput').value)">
+                            Buy Now
                         </button>
                     </div>
 
@@ -179,7 +183,7 @@
             <div class="store-product-grid-mobile">
                 <?php foreach ($relatedProducts as $rel): ?>
                     <?php if ($rel['id'] != $product['id']): ?>
-                        <div class="store-product-card">
+                        <div class="store-product-card" onclick="window.location.href='/store/<?= sanitize($store['slug']) ?>/product/<?= sanitize($rel['slug']) ?>'" style="cursor: pointer;">
                             <div class="store-product-thumb">
                                 <a href="/store/<?= sanitize($store['slug']) ?>/product/<?= sanitize($rel['slug']) ?>">
                                     <?php if (!empty($rel['primary_image'])): ?>
@@ -217,8 +221,24 @@
         <button type="button" class="btn btn-outline-success btn-sm fw-bold rounded-pill" onclick="addToCart(<?= $product['id'] ?>, document.getElementById('qtyInput').value)" style="min-height: 40px; padding: 0 14px;">
             <i class="bi bi-bag-plus me-1"></i> Cart
         </button>
-        <a href="/store/<?= sanitize($store['slug']) ?>/checkout" class="btn btn-success btn-sm fw-bold rounded-pill" onclick="addToCart(<?= $product['id'] ?>, document.getElementById('qtyInput').value)" style="min-height: 40px; padding: 0 16px;">
+        <button type="button" class="btn btn-success btn-sm fw-bold rounded-pill" onclick="buyNow(<?= $product['id'] ?>, document.getElementById('qtyInput').value)" style="min-height: 40px; padding: 0 16px;">
             Buy Now
-        </a>
+        </button>
     </div>
 </div>
+
+<script>
+function buyNow(productId, qty = 1) {
+    fetch('/store/<?= sanitize($store['slug']) ?>/cart/add', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ product_id: productId, quantity: qty })
+    }).then(res => res.json()).then(data => {
+        if (data.success) {
+            window.location.href = '/store/<?= sanitize($store['slug']) ?>/checkout';
+        } else {
+            alert(data.message || 'Error adding to cart');
+        }
+    });
+}
+</script>

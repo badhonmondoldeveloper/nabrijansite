@@ -320,15 +320,26 @@ img, svg, iframe, video, canvas {
     height: auto;
 }
 
-.nj-container, .container, .container-fluid {
-    max-width: 100% !important;
-    overflow-x: hidden;
+.nj-container {
+    width: 100%;
+    max-width: 1200px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
     box-sizing: border-box;
 }
 
+@media (min-width: 768px) {
+    .nj-container {
+        padding-left: 32px !important;
+        padding-right: 32px !important;
+    }
+}
+
 .row {
-    margin-left: 0 !important;
-    margin-right: 0 !important;
+    margin-left: -10px;
+    margin-right: -10px;
 }
 
 /* Dynamic RGB Glowing System */
