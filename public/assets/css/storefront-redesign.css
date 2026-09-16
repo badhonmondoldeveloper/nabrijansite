@@ -95,12 +95,14 @@ body.storefront-body {
 /* --- Mobile-First Header Architecture --- */
 .store-navbar {
   background: rgba(255, 255, 255, 0.98);
+  -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--store-border);
   position: sticky;
   top: 0;
   z-index: 1020;
   padding: 10px 0;
+  padding-top: max(10px, env(safe-area-inset-top, 10px));
 }
 .store-brand-logo {
   font-size: 1.25rem;
@@ -200,6 +202,7 @@ body.storefront-body {
   left: -320px;
   width: 280px;
   height: 100vh;
+  height: 100dvh;
   background: var(--store-surface);
   box-shadow: var(--store-shadow-lg);
   z-index: 1060;
@@ -216,7 +219,9 @@ body.storefront-body {
   left: 0;
   width: 100vw;
   height: 100vh;
+  height: 100dvh;
   background: rgba(15, 23, 42, 0.4);
+  -webkit-backdrop-filter: blur(2px);
   backdrop-filter: blur(2px);
   z-index: 1055;
   display: none;
@@ -519,6 +524,7 @@ body.storefront-body {
   width: 100%;
   max-width: 400px;
   height: 100vh;
+  height: 100dvh;
   background: var(--store-surface);
   box-shadow: var(--store-shadow-lg);
   z-index: 1060;
@@ -540,7 +546,9 @@ body.storefront-body {
   left: 0;
   width: 100vw;
   height: 100vh;
+  height: 100dvh;
   background: rgba(15, 23, 42, 0.4);
+  -webkit-backdrop-filter: blur(2px);
   backdrop-filter: blur(2px);
   z-index: 1055;
   display: none;
