@@ -55,8 +55,10 @@ class Router {
             $requestMethod = strtoupper($_POST['_method']);
         }
 
+        $matchMethod = ($requestMethod === 'HEAD') ? 'GET' : $requestMethod;
+
         foreach ($this->routes as $route) {
-            if ($route['method'] === $requestMethod && preg_match($route['regex'], $uri, $matches)) {
+            if ($route['method'] === $matchMethod && preg_match($route['regex'], $uri, $matches)) {
                 $params = array_filter($matches, 'is_string', ARRAY_FILTER_USE_KEY);
                 
                 $handler = $route['handler'];

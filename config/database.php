@@ -1,12 +1,12 @@
 <?php
 
 return [
-    'host' => $_ENV['DB_HOST'] ?? '127.0.0.1',
-    'port' => $_ENV['DB_PORT'] ?? '3306',
-    'dbname' => $_ENV['DB_NAME'] ?? 'nabrijan_db',
-    'username' => $_ENV['DB_USER'] ?? 'root',
-    'password' => $_ENV['DB_PASS'] ?? '',
-    'charset' => $_ENV['DB_CHARSET'] ?? 'utf8mb4',
+    'host' => env('DB_HOST', '127.0.0.1'),
+    'port' => env('DB_PORT', '3306'),
+    'dbname' => env('DB_NAME', 'nabrijan_db'),
+    'username' => env('DB_USER', 'nabrijan_user'),
+    'password' => env('DB_PASS', 'NabrijanPass#2026!'),
+    'charset' => env('DB_CHARSET', 'utf8mb4'),
     'options' => [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
