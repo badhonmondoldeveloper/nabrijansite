@@ -14,7 +14,7 @@ abstract class Model {
         // Database connection acquired lazily when queries are executed
     }
 
-    protected function getDb(): PDO {
+    public function getDb(): PDO {
         if ($this->db === null) {
             $this->db = Database::getInstance();
             if ($this->db === null) {

@@ -95,9 +95,7 @@ class StorefrontController extends Controller {
         $store = $this->resolveStore($slug);
         if (!$store) return;
 
-        $stmt = $this->productModel->getDb()->prepare("SELECT p.*, c.name as category_name, c.slug as category_slug FROM products p LEFT JOIN categories c ON p.category_id = c.id WHERE p.slug = ? AND p.store_id = ? AND p.deleted_at IS NULL LIMIT 1");
-        $stmt->execute([$productSlug, $store['id']]);
-        $product = $stmt->fetch();
+        $product = $this->productModel->findBySlugAndStore($productSlug, $store['id']);
 
         $storeSettings = $this->storeSettingModel->findByStoreId($store['id']) ?: [];
         $themeConfig = $this->themeService->getStoreThemeConfig($store['id']);

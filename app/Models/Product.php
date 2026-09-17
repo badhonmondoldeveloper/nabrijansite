@@ -75,4 +75,11 @@ class Product extends Model {
         }
         return (bool)$stmt->fetch();
     }
+
+    public function findBySlugAndStore(string $slug, int $storeId): ?array {
+        $stmt = $this->getDb()->prepare("SELECT p.*, c.name as category_name, c.slug as category_slug FROM {$this->table} p LEFT JOIN categories c ON p.category_id = c.id WHERE p.slug = ? AND p.store_id = ? AND p.deleted_at IS NULL LIMIT 1");
+        $stmt->execute([$slug, $storeId]);
+        $res = $stmt->fetch();
+        return $res ?: null;
+    }
 }
